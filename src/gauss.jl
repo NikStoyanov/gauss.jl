@@ -3,11 +3,12 @@ module gauss
 export naive_gauss, better_gauss
 
 function naive_gauss(A)
-    n = size(A)[1]
+    n = size(A, 1)
+    m = size(A, 2)
     pivot = A[1, 1]
     U = copy!(similar(A, eltype(pivot)), A)
 
-    for j in 1:n
+    for j in 1:m
         for i in j+1:n
             pivot = -U[i, j] / U[j, j]
             U[i, :] = U[i, :] + U[j, :] * pivot
@@ -19,11 +20,12 @@ end
 
 function better_gauss(A::AbstractMatrix)
     n = size(A, 1)
+    m = size(A, 2)
     pivot = A[1, 1]
     U = copy!(similar(A, eltype(pivot)), A)
 
     r = 1
-    for j in 1:n
+    for j in 1:m
         mi = argmax(abs.(U[r:end, j])) + r - 1
         swap_rows!(U, mi, r)
 
